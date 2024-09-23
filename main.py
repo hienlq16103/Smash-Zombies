@@ -28,8 +28,8 @@ class App:
         self.__displaying_surface = pygame.display.set_mode(self.size)
         
         # Tải hình nền và thay đổi kích thước cho vừa cửa sổ
-        self.background = pygame.image.load('img/background.jpg').convert()
-        self.background = pygame.transform.scale(self.background, (self.width, self.height))
+        self.__background = pygame.image.load('img/background.jpg').convert()
+        self.__background = pygame.transform.scale(self.background, (self.width, self.height))
         
         return self.__displaying_surface
 

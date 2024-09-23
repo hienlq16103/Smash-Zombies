@@ -6,6 +6,23 @@ from pygame.locals import *
 SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 400
 
+# Spawn Data Class
+class SpawnData:
+    def __init__(self):
+        # Danh sách các điểm spawn (tọa độ x, y)
+        self.spawn_points = [
+            (105, 220),
+            (165, 170),
+            (200, 310),
+            (250, 180),
+            (325, 250),
+            (470, 220),
+        ]
+
+    def spawn_point(self):
+        # Trả về một điểm spawn ngẫu nhiên
+        return random.choice(self.spawn_points)
+
 class App:
     """
     Handle execution of the game loop.
@@ -19,12 +36,20 @@ class App:
         self.__displaying_surface = None
         self.size = self.width, self.height = SCREEN_WIDTH, SCREEN_HEIGHT
 
+        # Tải hình nền
+        self.background = None
+
     def on_init(self):
         """
         Init pygame and create gameplay window.
         """
         pygame.init()
         self.__displaying_surface = pygame.display.set_mode(self.size)
+        
+        # Tải hình nền và thay đổi kích thước cho vừa cửa sổ
+        self.background = pygame.image.load('assets/background.png')
+        self.background = pygame.transform.scale(self.background, (self.width, self.height))
+        
         return self.__displaying_surface
 
     def on_event(self, event):
@@ -46,7 +71,11 @@ class App:
         """
         Rendering the game each frame.
         """
-        pass
+        # Vẽ hình nền lên màn hình
+        self.__displaying_surface.blit(self.background, (0, 0))
+
+        # Cập nhật màn hình
+        pygame.display.flip()
 
     def on_cleanup(self):
         """

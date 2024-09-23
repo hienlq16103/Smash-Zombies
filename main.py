@@ -1,6 +1,7 @@
 import sys
 import pygame
 from pygame.locals import *
+from Scripts.spawn_data import SpawnData
 
 # Screen resolution
 SCREEN_WIDTH = 640
@@ -25,6 +26,11 @@ class App:
         """
         pygame.init()
         self.__displaying_surface = pygame.display.set_mode(self.size)
+        
+        # Tải hình nền và thay đổi kích thước cho vừa cửa sổ
+        self.__background = pygame.image.load('img/background.jpg').convert()
+        self.__background = pygame.transform.scale(self.background, (self.width, self.height))
+        
         return self.__displaying_surface
 
     def on_event(self, event):
@@ -46,7 +52,11 @@ class App:
         """
         Rendering the game each frame.
         """
-        pass
+        # Vẽ hình nền lên màn hình
+        self.__displaying_surface.blit(self.background, (0, 0))
+
+        # Cập nhật màn hình
+        pygame.display.flip()
 
     def on_cleanup(self):
         """

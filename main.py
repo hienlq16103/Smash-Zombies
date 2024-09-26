@@ -29,7 +29,7 @@ class App:
         
         # Tải hình nền và thay đổi kích thước cho vừa cửa sổ
         self.__background = pygame.image.load('img/background.jpg').convert()
-        self.__background = pygame.transform.scale(self.background, (self.width, self.height))
+        self.__background = pygame.transform.scale(self.__background, (self.width, self.height))
         
         return self.__displaying_surface
 
@@ -53,7 +53,7 @@ class App:
         Rendering the game each frame.
         """
         # Vẽ hình nền lên màn hình
-        self.__displaying_surface.blit(self.background, (0, 0))
+        self.__displaying_surface.blit(self.__background, (0, 0))
 
         # Cập nhật màn hình
         pygame.display.flip()

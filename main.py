@@ -28,7 +28,7 @@ class App:
         """
         pygame.init()
         self.__displaying_surface = pygame.display.set_mode(self.size)
-        
+    
         # Tải hình nền và thay đổi kích thước cho vừa cửa sổ
         self.__background = pygame.image.load('img/background.jpg').convert()
         self.__background = pygame.transform.scale(self.__background, (self.width, self.height))
@@ -43,6 +43,8 @@ class App:
         """
         if event.type == pygame.QUIT:
             self.__is_running = False
+        
+        # Check xem bảng điểm hoạt động không, bằng cách nhấp chuột trái test.
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:  # Kiểm tra xem nút nhấp chuột trái có được nhấn không
                 self.game_stat.update_score(hit=True)  # Gọi hit khi nhấp chuột trái

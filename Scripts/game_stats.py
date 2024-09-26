@@ -1,6 +1,6 @@
 import pygame
 pygame.font.init()
-
+# Điểm số
 class GameStat:
     def __init__(self):
         self.hit_count = 0

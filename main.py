@@ -2,6 +2,7 @@ import sys
 import pygame
 from pygame.locals import *
 from Scripts.spawn_data import SpawnData
+from Scripts.game_stats import GameStat
 
 # Screen resolution
 SCREEN_WIDTH = 640
@@ -19,6 +20,7 @@ class App:
         self.__is_running = True
         self.__displaying_surface = None
         self.size = self.width, self.height = SCREEN_WIDTH, SCREEN_HEIGHT
+        self.game_stat = GameStat() 
 
     def on_init(self):
         """
@@ -29,7 +31,7 @@ class App:
         
         # Tải hình nền và thay đổi kích thước cho vừa cửa sổ
         self.__background = pygame.image.load('img/background.jpg').convert()
-        self.__background = pygame.transform.scale(self.background, (self.width, self.height))
+        self.__background = pygame.transform.scale(self.__background, (self.width, self.height))
         
         return self.__displaying_surface
 
@@ -41,6 +43,9 @@ class App:
         """
         if event.type == pygame.QUIT:
             self.__is_running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:  # Kiểm tra xem nút nhấp chuột trái có được nhấn không
+                self.game_stat.update_score(hit=True)  # Gọi hit khi nhấp chuột trái
 
     def on_loop(self):
         """
@@ -53,7 +58,10 @@ class App:
         Rendering the game each frame.
         """
         # Vẽ hình nền lên màn hình
-        self.__displaying_surface.blit(self.background, (0, 0))
+        self.__displaying_surface.blit(self.__background, (0, 0))
+        
+        # Điểm lên màn hình 
+        self.game_stat.display_stat(self.__displaying_surface)
 
         # Cập nhật màn hình
         pygame.display.flip()

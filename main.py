@@ -20,7 +20,7 @@ class App:
         self.__is_running = True
         self.__displaying_surface = None
         self.size = self.width, self.height = SCREEN_WIDTH, SCREEN_HEIGHT
-        self.game_stat = GameStat() 
+        self.game_stat = GameStat()
 
     def on_init(self):
         """
@@ -28,7 +28,7 @@ class App:
         """
         pygame.init()
         self.__displaying_surface = pygame.display.set_mode(self.size)
-    
+        
         # Tải hình nền và thay đổi kích thước cho vừa cửa sổ
         self.__background = pygame.image.load('img/background.jpg').convert()
         self.__background = pygame.transform.scale(self.__background, (self.width, self.height))

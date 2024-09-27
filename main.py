@@ -20,7 +20,7 @@ class App:
         self.__is_running = True
         self.__displaying_surface = None
         self.size = self.width, self.height = SCREEN_WIDTH, SCREEN_HEIGHT
-        self.game_stat = GameStat()
+        self.__game_stat = GameStat()
 
     def on_init(self):
         """
@@ -47,7 +47,7 @@ class App:
         # Check xem bảng điểm hoạt động không, bằng cách nhấp chuột trái test.
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:  # Kiểm tra xem nút nhấp chuột trái có được nhấn không
-                self.game_stat.update_score(hit=True)  # Gọi hit khi nhấp chuột trái
+                self.__game_stat.update_score(hit=True)  # Gọi hit khi nhấp chuột trái
 
     def on_loop(self):
         """
@@ -63,7 +63,7 @@ class App:
         self.__displaying_surface.blit(self.__background, (0, 0))
         
         # Điểm lên màn hình 
-        self.game_stat.display_stat(self.__displaying_surface)
+        self.__game_stat.display_stat(self.__displaying_surface)
 
         # Cập nhật màn hình
         pygame.display.flip()

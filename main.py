@@ -2,42 +2,29 @@ import sys
 import pygame
 from pygame.locals import *
 from Scripts.spawn_data import SpawnData
-from Scripts.zombie_head import ZombieHead  # Import ZombieHead class from a separate file
+from Scripts.zombie_head import ZombieHead
 import random
 import time
 
-# Screen resolution
 SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 400
 
-
 class App:
-    """
-    Handle execution of the game loop.
-    """
-
     def __init__(self):
-        """
-        Construct the app.
-        """
         self.__is_running = True
         self.__displaying_surface = None
         self.size = self.width, self.height = SCREEN_WIDTH, SCREEN_HEIGHT
-        self.background = None
+        self._background = None
         self.all_sprites = pygame.sprite.Group()
         self.spawn_data = SpawnData()
-        self.spawn_timer = time.time() + random.uniform(1, 3)  # Random time interval for spawning zombies
+        self.spawn_timer = time.time() + random.uniform(1, 3)
 
     def on_init(self):
-        """
-        Init pygame and create gameplay window.
-        """
         pygame.init()
         self.__displaying_surface = pygame.display.set_mode(self.size)
-        self.background = pygame.image.load('img/background.jpg').convert()
-        self.background = pygame.transform.scale(self.background, (self.width, self.height))
+        self._background = pygame.image.load('img/background.jpg').convert()
+        self._background = pygame.transform.scale(self._background, (self.width, self.height))
         pygame.mixer.init()
-
         return self.__displaying_surface
 
     def spawn_zombie(self):
@@ -57,20 +44,19 @@ class App:
             self.__is_running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             for sprite in self.all_sprites:
-                if sprite.rect.collidepoint(event.pos):
+                if isinstance(sprite, ZombieHead) and sprite.check_hit(event.pos):
                     sprite.on_smashed()
 
     def on_loop(self):
         """
         Updating the game world each frame.
         """
-        # Check if it's time to spawn a new zombie
         if time.time() > self.spawn_timer:
             self.spawn_zombie()
             self.spawn_timer = time.time() + random.uniform(1, 3)  # Reset spawn timer
 
         for sprite in self.all_sprites:
-            sprite.despawn()  # Check and despawn zombies
+            sprite.update()  # Gọi phương thức update của mỗi sprite
 
         self.all_sprites.update()
 
@@ -78,7 +64,7 @@ class App:
         """
         Rendering the game each frame.
         """
-        self.__displaying_surface.blit(self.background, (0, 0))
+        self.__displaying_surface.blit(self._background, (0, 0))
         self.all_sprites.draw(self.__displaying_surface)
         pygame.display.flip()
 
@@ -104,7 +90,6 @@ class App:
             self.on_render()
 
         self.on_cleanup()
-
 
 if __name__ == "__main__":
     the_app = App()

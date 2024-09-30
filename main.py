@@ -3,6 +3,9 @@ import pygame
 from pygame.locals import *
 from Scripts.spawn_data import SpawnData
 from Scripts.game_stats import GameStat
+from Scripts.zombie_head import ZombieHead
+import random
+import time
 
 # Screen resolution
 SCREEN_WIDTH = 1024
@@ -20,6 +23,10 @@ class App:
         self.__is_running = True
         self.__displaying_surface = None
         self.size = self.width, self.height = SCREEN_WIDTH, SCREEN_HEIGHT
+        self.__background = None
+        self.all_sprites = pygame.sprite.Group()
+        self.spawn_data = SpawnData()
+        self.spawn_timer = time.time() + random.uniform(1, 3)
         self.__game_stat = GameStat()
 
     def on_init(self):
@@ -34,6 +41,12 @@ class App:
         self.__background = pygame.transform.scale(self.__background, (self.width, self.height))
         
         return self.__displaying_surface
+    def spawn_zombie(self):
+        """
+        Spawn a new zombie at a random location.
+        """
+        zombie = ZombieHead(self.spawn_data)
+        self.all_sprites.add(zombie)
 
     def on_event(self, event):
         """
@@ -46,6 +59,10 @@ class App:
         
         # Check xem bảng điểm hoạt động không, bằng cách nhấp chuột trái test.
         elif event.type == pygame.MOUSEBUTTONDOWN:
+            for sprite in self.all_sprites:
+                if isinstance(sprite, ZombieHead) and sprite.check_hit(event.pos):
+                    sprite.on_smashed()
+
             if event.button == 1:  # Kiểm tra xem nút nhấp chuột trái có được nhấn không
                 self.__game_stat.update_score(hit=True)  # Gọi hit khi nhấp chuột trái
 
@@ -53,14 +70,20 @@ class App:
         """
         Updating the game world each frame.
         """
-        pass
+        if time.time() > self.spawn_timer:
+            self.spawn_zombie()
+            self.spawn_timer = time.time() + random.uniform(1, 3)  # Reset spawn timer
+        for sprite in self.all_sprites:
+            sprite.update()  # Gọi phương thức update của mỗi sprite
+        self.all_sprites.update()
 
     def on_render(self):
         """
         Rendering the game each frame.
         """
-        # Vẽ hình nền lên màn hình
         self.__displaying_surface.blit(self.__background, (0, 0))
+        self.all_sprites.draw(self.__displaying_surface)
+        
         
         # Điểm lên màn hình 
         self.__game_stat.display_stat(self.__displaying_surface)

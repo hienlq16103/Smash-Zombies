@@ -7,7 +7,7 @@ from Scripts.zombie_head import ZombieHead
 import random
 import time
 
-# Screen resolution
+# Screen resolutiongit 
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 768
 

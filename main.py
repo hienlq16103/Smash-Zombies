@@ -5,8 +5,8 @@ from Scripts.spawn_data import SpawnData
 from Scripts.game_stats import GameStat
 
 # Screen resolution
-SCREEN_WIDTH = 640
-SCREEN_HEIGHT = 400
+SCREEN_WIDTH = 1024
+SCREEN_HEIGHT = 768
 
 class App:
     """

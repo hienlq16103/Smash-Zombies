@@ -12,12 +12,12 @@ class SpawnData:
         Khởi tạo lớp SpawnData và thiết lập danh sách các điểm spawn.
         """
         self.spawn_points = [
-            (105, 220),
-            (165, 170),
-            (200, 310),
-            (250, 180),
-            (325, 250),
-            (470, 220),
+            (170, 440),
+            (315, 590),
+            (265, 325),
+            (400, 340),
+            (520, 455),
+            (750, 425),
         ]
 
     def spawn_point(self):

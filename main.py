@@ -62,6 +62,7 @@ class App:
             for sprite in self.all_sprites:
                 if isinstance(sprite, ZombieHead) and sprite.check_hit(event.pos):
                     sprite.on_smashed()
+
             if event.button == 1:  # Kiểm tra xem nút nhấp chuột trái có được nhấn không
                 self.__game_stat.update_score(hit=True)  # Gọi hit khi nhấp chuột trái
 

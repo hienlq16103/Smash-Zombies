@@ -6,6 +6,7 @@ from Scripts.game_stats import GameStat
 from Scripts.zombie_head import ZombieHead
 import random
 import time
+
 # Screen resolution
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 768
@@ -22,7 +23,7 @@ class App:
         self.__is_running = True
         self.__displaying_surface = None
         self.size = self.width, self.height = SCREEN_WIDTH, SCREEN_HEIGHT
-        self._background = None
+        self.__background = None
         self.all_sprites = pygame.sprite.Group()
         self.spawn_data = SpawnData()
         self.spawn_timer = time.time() + random.uniform(1, 3)

@@ -57,14 +57,14 @@ class App:
         if event.type == pygame.QUIT:
             self.__is_running = False
         
-        # Check xem bảng điểm hoạt động không, bằng cách nhấp chuột trái test.
+        # Cập nhật bảng điểm 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             for sprite in self.all_sprites:
                 if isinstance(sprite, ZombieHead) and sprite.check_hit(event.pos):
                     sprite.on_smashed()
-
-            if event.button == 1:  # Kiểm tra xem nút nhấp chuột trái có được nhấn không
-                self.__game_stat.update_score(hit=True)  # Gọi hit khi nhấp chuột trái
+                    self.__game_stat.update_score(hit=True)      # Cập nhật cộng điểm trúng khi click trúng zombie
+                else: 
+                    self.__game_stat.update_score(hit=False)     # Cập nhật cộng điểm hụt khi click hụt zombie
 
     def on_loop(self):
         """

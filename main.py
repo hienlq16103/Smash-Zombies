@@ -71,6 +71,9 @@ class App:
         self.all_sprites.add(zombie)
 
     def rotate_hammer(self):
+        """
+        Added hammering animation
+        """
         if self.hammer_rotating:
             current_time = time.time()
             elapsed_time = current_time - self.hammer_rotation_start_time

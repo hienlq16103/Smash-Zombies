@@ -2,7 +2,16 @@ import pygame
 import time
 
 class ZombieHead(pygame.sprite.Sprite):
+    """
+    A class to represent a zombie head in the game. It includes spawning, exploding, 
+    and animation behavior, as well as hit detection.
+    """
+    
     def __init__(self, spawn_data):
+        """
+        Initializes the ZombieHead sprite, setting its image, position, and 
+        preparing for animations and explosions.
+        """
         super().__init__()
         self.original_image = pygame.image.load('img/zombie_head.png').convert_alpha()
         self.image = self.original_image.copy()
@@ -32,16 +41,29 @@ class ZombieHead(pygame.sprite.Sprite):
         self.current_alpha = 0
 
     def despawn(self):
+        """
+        Despawns the zombie head by removing it from the sprite group
+        after its despawn time has passed.
+        """
         if time.time() > self.despawn_time:
             self.kill()
 
     def on_smashed(self):
+        """
+        Handles the event when the zombie head is smashed by playing the sound, 
+        setting the exploding state, and changing the image to the explosion image.
+        """
         self.kill_audio.play()
         self.is_exploding = True
         self.explosion_start_time = time.time()
         self.image = self.boom_image
 
     def update(self):
+        """
+        Updates the zombie head's state, handling animations and explosions. It manages the 
+        scaling and transparency during the spawn and despawn animations, as well as the 
+        explosion state.
+        """
         current_time = time.time()
         
         if self.is_exploding:
@@ -71,6 +93,10 @@ class ZombieHead(pygame.sprite.Sprite):
         self.collision_rect.center = self.rect.center
 
     def check_hit(self, pos):
+        """
+        Checks if the given position (typically the mouse position) hits the zombie head.
+        A hit is only detected if the head is not exploding and is sufficiently visible.
+        """
         if not self.is_exploding and self.current_alpha > 200:  # Only allow hits when mostly visible
             offset_x = pos[0] - self.rect.x
             offset_y = pos[1] - self.rect.y
